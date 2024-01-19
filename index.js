@@ -1,3 +1,4 @@
+
 // index.js
 const connectToMongo = require("./db");
 const express = require("express");
