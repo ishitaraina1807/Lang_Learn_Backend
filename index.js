@@ -15,6 +15,25 @@ app.use("/api/auth", require("./routes/auth"));
 // Import and use the questions route
 app.use("/api/questions", require("./routes/questions"));
 
+app.get("/api/questions/english", async (req, res) => {
+  try {
+    const db = await connectToMongo();
+    const collection = db.collection("Ques_Collection"); // Replace with your actual collection name
+
+    // Fetch all data from the collection
+    const data = await collection.find({}).toArray();
+
+    // Filter only English questions
+    const englishQuestions = data[0].english;
+
+    console.log('Fetched English questions:', englishQuestions);
+    res.json(englishQuestions);
+  } catch (err) {
+    console.error('Error fetching English questions', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Notebox-backend listening on port ${port}`);
 });
